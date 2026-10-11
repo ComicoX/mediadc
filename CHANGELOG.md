@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.3 - 2026-10-11]
+
+Nextcloud 35 compatibility. Minimum supported Nextcloud is now 33.
+
+### Fixed
+
+- Files app "Scan for duplicates" action: ported to the `@nextcloud/files` v4 API (plain action object, context-object callbacks). The v3 `FileAction` class is not picked up by the Files app on Nextcloud 33+
+- Python environment: `pillow==10.3.0` cannot be installed on Python 3.13 (Debian 13); use Pillow 11+ there. Older Pythons keep the previous pin
+- Python environment: add `cryptography`, required by PyMySQL for `caching_sha2_password` (default on MySQL 8.4+ / 9.x)
+- Python environment: a failed `pip install` no longer leaves a venv behind that is mistaken for a working one
+- Main page no longer fatals if the Files `LoadSidebar` or Viewer `LoadViewer` event class is unavailable
+- The legacy `OC.Files.getClient()` call in the main entry point can no longer throw on Nextcloud versions that removed it
+
+### Changed
+
+- `info.xml`: Nextcloud 33–35, PHP min-version 8.1 (the code already required it)
+- Task name created from the Files action now uses the folder's full path
+
 ## [0.4.0 - 2024-10-21]
 
 Maintenance update. Update NC versions to support NC30+ only.

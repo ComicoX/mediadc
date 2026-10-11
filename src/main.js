@@ -43,18 +43,22 @@ __webpack_public_path__ = generateFilePath('mediadc', '', 'js/')
 sync(store, router)
 
 Vue.directive('tooltip', Tooltip)
-window.addEventListener('DOMContentLoaded', () => {
-	if (!window.OCA.Files) {
-		window.OCA.Files = {}
-	}
-	// For sidebar functionality
-	Object.assign(window.OCA.Files, { App: { fileList: { filesClient: OC.Files.getClient() } } }, window.OCA.Files)
-})
 
 Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
 Vue.prototype.OC = window.OC
 Vue.prototype.OCA = window.OCA
+
+window.addEventListener('DOMContentLoaded', () => {
+	window.OCA = window.OCA || {}
+	window.OCA.Files = window.OCA.Files || {}
+
+	if (window.OC?.Files?.getClient) {
+		window.OCA.Files.App = window.OCA.Files.App || {}
+		window.OCA.Files.App.fileList = window.OCA.Files.App.fileList || {}
+		window.OCA.Files.App.fileList.filesClient = window.OC.Files.getClient()
+	}
+})
 
 export default new Vue({
 	el: '#content',

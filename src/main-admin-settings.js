@@ -34,6 +34,7 @@ Vue.directive('tooltip', Tooltip)
 
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
+
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('mediadc', '', 'js/')
 
@@ -42,5 +43,9 @@ Vue.prototype.n = translatePlural
 Vue.prototype.OC = window.OC
 Vue.prototype.OCA = window.OCA
 
-const View = Vue.extend(AdminSettings)
-new View().$mount('#mediadc-admin-settings')
+const mountPoint = document.querySelector('#mediadc-admin-settings')
+
+if (mountPoint) {
+	const View = Vue.extend(AdminSettings)
+	new View().$mount(mountPoint)
+}

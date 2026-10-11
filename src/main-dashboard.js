@@ -31,6 +31,7 @@ import Dashboard from './views/Dashboard.vue'
 
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
+
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('mediadc', '', 'js/')
 
@@ -39,11 +40,25 @@ Vue.prototype.n = translatePlural
 Vue.prototype.OC = window.OC
 Vue.prototype.OCA = window.OCA
 
-document.addEventListener('DOMContentLoaded', () => {
-	const register = OCA?.Dashboard?.register || (() => {})
+function registerDashboard() {
+	const register = window.OCA?.Dashboard?.register
+
+	if (typeof register !== 'function') {
+		return
+	}
 
 	register('mediadc-tasks', (el) => {
 		const View = Vue.extend(Dashboard)
 		new View().$mount(el)
 	})
-})
+}
+
+if (document.readyState === 'loading') {
+	document.addEventListener(
+		'DOMContentLoaded',
+		registerDashboard,
+		{ once: true },
+	)
+} else {
+	registerDashboard()
+}
