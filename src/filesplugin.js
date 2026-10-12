@@ -26,6 +26,7 @@ import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { registerFileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { showSuccess } from '@nextcloud/dialogs'
 
 // eslint-disable-next-line
 function getSettings() {
@@ -80,7 +81,7 @@ registerFileAction({
 	async exec({ nodes }) {
 		const node = nodes[0]
 		createNewTaskFromFolder(node.fileid, node.path).then(() => {
-			OC.dialogs.info(t('mediadc', 'New task for folder scan successfully created'), 'MediaDC')
+			showSuccess(t('mediadc', 'New task for folder scan successfully created'))
 		})
 		return null
 	},

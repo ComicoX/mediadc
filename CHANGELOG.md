@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.4 - 2026-10-12]
+
+### Changed
+
+- Frontend migrated from Vue 2 to Vue 3: `vue` 3, `vue-router` 4, `vuex` 4, `@nextcloud/vue` 9, `@nextcloud/dialogs` 7, `@nextcloud/files` 4 (the declared `^3.9.0` did not match the v4 API the Files action already used)
+- Main page mounts on `#mediadc-app` instead of `#content` (Vue 3 mounts inside the target element instead of replacing it)
+- Tooltips are now native `title` attributes; the `v-tooltip` directive was removed from `@nextcloud/vue` 9
+- `OC.dialogs.confirm()` / `OC.dialogs.info()` replaced by `@nextcloud/dialogs`
+- ESLint moved to the flat config (`eslint.config.mjs`) and is no longer run as part of the webpack build
+
+### Removed
+
+- `vuex-router-sync` (no Vue 3 release); the details store reads the route from the router
+
+### Fixed
+
+- Dashboard widget: the empty-state icon was imported from `@nextcloud/vue`, which does not export it
+
 ## [0.5.3 - 2026-10-11]
 
 Nextcloud 35 compatibility. Minimum supported Nextcloud is now 33.

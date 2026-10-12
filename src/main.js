@@ -24,30 +24,19 @@
 
 import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
-import { Tooltip } from '@nextcloud/vue'
-import { sync } from 'vuex-router-sync'
-import { translate, translatePlural } from '@nextcloud/l10n'
 import '@nextcloud/dialogs/style.css'
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 import MediaDC from './MediaDC.vue'
 import router from './router/index.js'
 import store from './store/index.js'
+import { installGlobals } from './vue-globals.js'
 
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
 
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('mediadc', '', 'js/')
-
-sync(store, router)
-
-Vue.directive('tooltip', Tooltip)
-
-Vue.prototype.t = translate
-Vue.prototype.n = translatePlural
-Vue.prototype.OC = window.OC
-Vue.prototype.OCA = window.OCA
 
 window.addEventListener('DOMContentLoaded', () => {
 	window.OCA = window.OCA || {}
@@ -60,9 +49,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 })
 
-export default new Vue({
-	el: '#content',
-	router,
-	store,
-	render: h => h(MediaDC),
-})
+const app = createApp(MediaDC)
+installGlobals(app)
+app.use(router)
+app.use(store)
+
+export default app.mount('#mediadc-app')
